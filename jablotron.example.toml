@@ -1,0 +1,40 @@
+
+
+# Use the jlink2sensors.py tool to generate this array from XML sensors list
+# exported from Jablotron's JLink software.
+sensors = [
+  { id =  6, model = "JA-151P", kind = "motion", name = "Living Room" },
+  { id =  8, model = "JA-185B", kind = "glassbreak", name = "GB - Office" },
+  { id =  9, model = "JA-151P", kind = "motion", name = "Office" },
+  { id = 10, model = "JA-151P", kind = "motion", name = "Children Bedroom" },
+  { id = 28, model = "JA-151M", kind = "window", name = "Front Doors" }
+  # ... etc. etc. ...
+]
+
+# PIN code for the automation user; required for changing alarm state.
+# Values has the form of "U*AAAA" where U is user number ("1" for the first user
+# etc.), followed by "*", followed by the actual PIN.
+pin = "4*1234"
+
+# Ordered list of named states of the alarm. For HomeKit compatibility, standard
+# names "home", "night" and "away" should be defined; "disarmed" has all sections off.
+# Note that definitions may have duplicates (e.g. home and night being identical,
+# or home being identical to disarmed), in which case the first matching state is
+# reported. Both fully armed and partially-armed sections can be configured as per
+# Jablotron configuration of the sections.
+states = [
+    { name = "home", partial = [1] },
+    { name = "night", partial = [1] },
+    { name = "away", armed = [1] },
+]
+
+[homekit]
+# Force the use of HomeKit bridge. Bridge is always used if sensors are defined.
+use_bridge = true
+# Port used by HomeKit interface
+port = 51001
+# Provide buttons for setting alarm states. HomeKit doesn't allow confirmation-less
+# automations of security accessories, but you can use these to get around that
+# limitation and provide a list of states you want buttons for.
+# Do consider security implications of doing so!
+fake_buttons = ["away", "home"]
