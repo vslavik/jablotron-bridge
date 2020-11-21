@@ -1,0 +1,13 @@
+[Unit]
+Description=Jablotron bridge
+After=local-fs.target network-online.target
+
+[Service]
+User=pi
+Restart=always
+Type=simple
+WorkingDirectory=/home/pi/jablotron
+ExecStart=/home/pi/jablotron/venv/bin/python3 jablotron_server.py
+
+[Install]
+WantedBy=multi-user.target
